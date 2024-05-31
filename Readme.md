@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм»
 
 - Студент: [Павел Воронов](https://up.htmlacademy.ru/javascript-individual/1/user/1643425).
-- Наставник: `Алексей Хабиров` (https://htmlacademy.ru/profile/id963185).
+- Наставник: [Алексей Хабиров](https://htmlacademy.ru/profile/id963185).
 
 ---
 
