@@ -35,18 +35,23 @@ const createIdGenerator = () => {
 const generatePhotoId = createIdGenerator();
 const generateCommentId = createIdGenerator();
 
-const getRandomArrayElement = (elements) => elements[getRandomInteger(0, length.elements - 1)]
+const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)]
 
 
-const createMessages = () => { Array.from({ length: getRandomInteger(1, 2) }, () => ) }
+const createMessages = () => Array.from({
+  length: getRandomInteger(1, 2)
+}, () => getRandomArrayElement(MESSAGE_WORDS)).join(' ')
 
 
 
-/* const createComments = () => ({
+
+const createComments = () => ({
   id: generateCommentId(),
-  avatar: 'img/avatar-{getRandomInteger(1,AVATAR_COUNT)}.svg',
-  message: ,
-  name: ,
-}) */
+  avatar: 'img/avatar- ${getRandomInteger(1, AVATAR_COUNT)}.svg',
+  message: createMessages(),
+  name: getRandomArrayElement(NAMES)
+})
 
-console.log(createMessages)
+
+console.log(createComments())
+
