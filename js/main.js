@@ -32,7 +32,7 @@ const createIdGenerator = () => {
     return lastGeneratedId;
   };
 }
-const generatePhotoId = createIdGenerator();
+
 const generateCommentId = createIdGenerator();
 
 const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)]
@@ -43,15 +43,42 @@ const createMessages = () => Array.from({
 }, () => getRandomArrayElement(MESSAGE_WORDS)).join(' ')
 
 
-
-
 const createComments = () => ({
   id: generateCommentId(),
-  avatar: 'img/avatar- ${getRandomInteger(1, AVATAR_COUNT)}.svg',
+  avatar: `img/avatar- ${getRandomInteger(1, AVATAR_COUNT)}.svg`,
   message: createMessages(),
   name: getRandomArrayElement(NAMES)
 })
 
+const createRandomIdFromRangeGenerator = (min, max) => {
+  const previousValues = [];
 
-console.log(createComments())
+  return () => {
+    let currentValue = getRandomInteger(min, max);
 
+    if (previousValues.length >= (max - min + 1)) {
+      console.error('Перебраны все числа из диапазона от ' + min + ' до ' + max);
+      return null;
+    }
+
+    while (previousValues.includes(currentValue)) {
+      currentValue = getRandomInteger(min, max);
+    }
+    previousValues.push(currentValue);
+    return currentValue;
+  };
+}
+
+const generateId = createRandomIdFromRangeGenerator(1, ID_PHOTO_COUNT);
+const generateUrlId = createRandomIdFromRangeGenerator(1, URL_COUNT);
+
+const getPictures = () => ({
+  id: generateId(),
+  url: `photos / ${generateUrlId()}.jpg`,
+  description: getRandomArrayElement(DESCRIPTIONS),
+  likes: getRandomInteger(LIKES_MIN_COUNT, LIKES_MAX_COUNT),
+  comments: Array.from({ length: getRandomInteger(1, 5) }, () => createComments())
+})
+
+const creatingDuplicatesPictures = () => Array.from({ length: PICTURE_COUNT }, getPictures)
+console.log(creatingDuplicatesPictures())
