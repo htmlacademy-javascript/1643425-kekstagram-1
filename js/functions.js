@@ -4,6 +4,7 @@ const checkIsPalindrom = (string) => {
   const mid = Math.round(str.length / 2);
 
   for (let i = 0; i < mid; i++) {
+
     if (str[i] !== str[str.length - 1 - i]) {
       return false;
     }
@@ -19,6 +20,7 @@ const parseNumber = (string) => {
   const str = string.toLowerCase();
 
   for (let i = 0; i < str.length; i++) {
+
     if (!isNaN(str[i])) {
       finalLine += str[i].trim();//Если здесь убрать trim то строка '1 кефир, 0.5 батона' на выходе получается '1 05' и  строка 'ECMAScript 2022' выходит с пробелом впереди
     }
@@ -61,11 +63,11 @@ const returnsModifiedString = (originalLine, targetLength, additionalStr) => {
   return total;
 };
 
-console.log(returnsModifiedString('1', 2, '0')); // '01'
-console.log(returnsModifiedString('1', 4, '0')); // '0001' */
-console.log(returnsModifiedString('q', 4, 'werty')); // 'werq'
-console.log(returnsModifiedString('q', 4, 'we')); // 'wweq'
-console.log(returnsModifiedString('qwerty', 4, '0')); // 'qwerty'
+//console.log(returnsModifiedString('1', 2, '0')); // '01'
+//console.log(returnsModifiedString('1', 4, '0')); // '0001' */
+//console.log(returnsModifiedString('q', 4, 'werty')); // 'werq'
+//console.log(returnsModifiedString('q', 4, 'we')); // 'wweq'
+//console.log(returnsModifiedString('qwerty', 4, '0')); // 'qwerty'
 
 
 //Функция для проверки длины строки
