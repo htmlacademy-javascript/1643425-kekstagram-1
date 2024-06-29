@@ -1,8 +1,5 @@
 import { getRandomInteger, createIdGenerator, getRandomArrayElement, createRandomIdFromRangeGenerator } from './util.js';
-<<<<<<< HEAD
-=======
 
->>>>>>> 57b9cec451a1a79adb2cd9e265653e58aeaead14
 const ID_PHOTO_COUNT = 25;
 const PICTURE_COUNT = 25;
 const AVATAR_COUNT = 6;
