@@ -1,3 +1,3 @@
-import { creatingDuplicatesPictures } from './data.js';
+import './templates.js';
 
-console.log(creatingDuplicatesPictures());
+

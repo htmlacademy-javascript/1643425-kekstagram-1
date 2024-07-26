@@ -41,7 +41,7 @@ const createComment = () => ({
 
 const getPictures = (index) => ({
   id: generateId(),
-  url: `photos / ${index}.jpg`,
+  url: `photos/${index}.jpg`,
   description: getRandomArrayElement(DESCRIPTIONS),
   likes: getRandomInteger(LIKES_MIN_COUNT, LIKES_MAX_COUNT),
   comments: Array.from({ length: getRandomInteger(1, 5) }, createComment)
