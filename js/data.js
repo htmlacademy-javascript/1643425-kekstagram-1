@@ -47,6 +47,7 @@ const getPictures = (index) => ({
   comments: Array.from({ length: getRandomInteger(1, 5) }, createComment)
 });
 
-const creatingDuplicatesPictures = () => Array.from({ length: PICTURE_COUNT }, (_, index) => getPictures(index + 1));
+const createDuplicatesPictures = () => Array.from({ length: PICTURE_COUNT }, (_, index) => getPictures(index + 1));
+const pictures = createDuplicatesPictures();
 
-export { creatingDuplicatesPictures };
+export { pictures };
