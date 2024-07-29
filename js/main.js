@@ -1,3 +1,4 @@
-import { creatingDuplicatesPictures } from './data.js';
+import { renderPictures } from './photoCreationTemplate.js';
+import { pictures } from './data.js';
 
-console.log(creatingDuplicatesPictures());
+renderPictures(pictures);

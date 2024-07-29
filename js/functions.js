@@ -79,3 +79,20 @@ const checkLineLength = (stringChecked, maximumLength) => stringChecked.length <
 console.log(checkLineLength('проверяемая строка', 18));
 
 console.log(checkLineLength('проверяемая строка', 10)); */
+
+
+/*const createPictures = createDuplicatesPictures();
+const similarListFragment = document.createDocumentFragment();
+
+
+createPictures.forEach(({ url, likes, comments }) => {
+
+  const pictureElements = pictureTemplate.cloneNode(true);
+  pictureElements.querySelector('.picture__img').src = url;
+  pictureElements.querySelector('.picture__likes').textContent = likes;
+  pictureElements.querySelector('.picture__comments').textContent = comments.length;
+  similarListFragment.appendChild(pictureElements);
+});
+
+container.appendChild(similarListFragment);*/
+
