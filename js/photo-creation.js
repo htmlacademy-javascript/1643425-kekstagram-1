@@ -1,7 +1,6 @@
-
-
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 const container = document.querySelector('.pictures');
+
 
 const createPhotoFragment = document.createDocumentFragment();
 
@@ -18,5 +17,6 @@ const renderPictures = (array) => {
 
   return container.appendChild(createPhotoFragment);
 };
+
 
 export { renderPictures };
