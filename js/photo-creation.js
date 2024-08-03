@@ -1,3 +1,4 @@
+import { creatingLargeImages } from './big-picture.js';
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 const container = document.querySelector('.pictures');
 
@@ -18,5 +19,6 @@ const renderPictures = (array) => {
   return container.appendChild(createPhotoFragment);
 };
 
+creatingLargeImages(container);
 
-export { renderPictures };
+export { renderPictures, container };
