@@ -1,6 +1,5 @@
 import { creatingLargeImages } from './big-picture.js';
-import { pictures } from './data.js';
-//import { renderGallery } from './big-picture.js';
+
 
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 const container = document.querySelector('.pictures');
