@@ -7,12 +7,10 @@ const socialCommentCount = document.querySelector('.social__comment-count');
 const socialComment = document.querySelector('.social__comment');
 const socialCommentsContainer = document.querySelector('.social__comments');
 
+const renderComments = (comments) => {
+  const createCommentFragment = document.createDocumentFragment();
 
-const createCommentFragment = document.createDocumentFragment();
-
-const renderComments = (array) => {
-
-  array.forEach(({ avatar, name, message }) => {
+  comments.forEach(({ avatar, name, message }) => {
 
     const commentElements = socialComment.cloneNode(true);
     commentElements.querySelector('.social__picture').src = avatar;
@@ -22,9 +20,8 @@ const renderComments = (array) => {
     createCommentFragment.appendChild(commentElements);
   });
 
-  return socialCommentsContainer.appendChild(createCommentFragment);
+  socialCommentsContainer.appendChild(createCommentFragment);
 };
-
 
 const renderBigPhoto = (data) => {
   document.querySelector('.big-picture__img').querySelector('img').src = data.url;
@@ -35,19 +32,20 @@ const renderBigPhoto = (data) => {
   renderComments(data.comments);
 };
 
-const creatingLargeImages = (data) => {
+const openUserModal = () => {
   bigPicture.classList.remove('hidden');
   body.classList.add('modal-open');
+  document.addEventListener('keydown', onDocumentKeydown);
+};
+
+const renderBigPicture = (data) => {
+  openUserModal();
   commentsLoader.classList.add('hidden');
   socialCommentCount.classList.add('hidden');
-
-
   renderBigPhoto(data);
 };
 
-
 //закрытие модалки
-
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
@@ -55,17 +53,15 @@ const onDocumentKeydown = (evt) => {
   }
 };
 
-function closeUserModal() {
-  bigPictureCancel.addEventListener('click', () => {
-    bigPicture.classList.add('hidden');
-    body.classList.remove('modal-open');
-    document.removeEventListener('keydown', onDocumentKeydown);
-  });
-}
+const closeUserModal = () => {
+  bigPicture.classList.add('hidden');
+  body.classList.remove('modal-open');
+  document.removeEventListener('keydown', onDocumentKeydown);
+};
 
 bigPictureCancel.addEventListener('click', () => {
   closeUserModal();
 });
-export { creatingLargeImages };
+export { renderBigPicture };
 
 

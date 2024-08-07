@@ -48,6 +48,5 @@ const getPictures = (index) => ({
 });
 
 const createDuplicatesPictures = () => Array.from({ length: PICTURE_COUNT }, (_, index) => getPictures(index + 1));
-const pictures = createDuplicatesPictures();
 
-export { pictures };
+export { createDuplicatesPictures };

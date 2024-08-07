@@ -1,15 +1,12 @@
-import { creatingLargeImages } from './big-picture.js';
-
+import { renderBigPicture } from './big-picture.js';
 
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 const container = document.querySelector('.pictures');
 
+const renderPictures = (pictures) => {
+  const createPhotoFragment = document.createDocumentFragment();
 
-const createPhotoFragment = document.createDocumentFragment();
-
-const renderPictures = (array) => {
-
-  array.forEach(({ url, likes, comments, id }) => {
+  pictures.forEach(({ url, likes, comments, id }) => {
 
     const pictureElements = pictureTemplate.cloneNode(true);
     pictureElements.querySelector('.picture__img').src = url;
@@ -19,21 +16,23 @@ const renderPictures = (array) => {
     createPhotoFragment.appendChild(pictureElements);
   });
 
-  return container.appendChild(createPhotoFragment);
+  container.appendChild(createPhotoFragment);
 };
 
-const renderGallery = (picture) => {
-  container.addEventListener('click', (evt) => {
-    const availabilityPhoto = evt.target.closest('[data-picture-id]');
+const onPictureClick = (evt, pictures) => {
+  const availabilityPhoto = evt.target.closest('[data-picture-id]');
 
-    if (!availabilityPhoto) {
-      return;
-    }
-    const photos = picture.find((item) => item.id === +availabilityPhoto.dataset.pictureId);
-    creatingLargeImages(photos);
+  if (!availabilityPhoto) {
+    return;
   }
-  );
+
+  const photos = pictures.find((item) => item.id === +availabilityPhoto.dataset.pictureId);
+  renderBigPicture(photos);
 };
 
+const renderGallery = (pictures) => {
+  renderPictures(pictures);
+  container.addEventListener('click', (evt) => onPictureClick(evt, pictures));
+};
 
 export { renderPictures, renderGallery };
