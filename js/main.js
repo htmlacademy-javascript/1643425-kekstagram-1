@@ -1,4 +1,5 @@
-import { renderPictures } from './photoCreationTemplate.js';
-import { pictures } from './data.js';
+import { createDuplicatesPictures } from './data.js';
+import { renderGallery } from './photo-creation.js';
+const pictures = createDuplicatesPictures();
 
-renderPictures(pictures);
+renderGallery(pictures);

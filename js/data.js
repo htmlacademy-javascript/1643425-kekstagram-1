@@ -34,7 +34,7 @@ const createMessages = () => Array.from({
 
 const createComment = () => ({
   id: generateCommentId(),
-  avatar: `img/avatar- ${getRandomInteger(1, AVATAR_COUNT)}.svg`,
+  avatar: `img/avatar-${getRandomInteger(1, AVATAR_COUNT)}.svg`,
   message: createMessages(),
   name: getRandomArrayElement(NAMES)
 });
@@ -48,6 +48,5 @@ const getPictures = (index) => ({
 });
 
 const createDuplicatesPictures = () => Array.from({ length: PICTURE_COUNT }, (_, index) => getPictures(index + 1));
-const pictures = createDuplicatesPictures();
 
-export { pictures };
+export { createDuplicatesPictures };
