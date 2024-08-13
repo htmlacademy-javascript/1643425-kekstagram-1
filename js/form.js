@@ -5,6 +5,7 @@ const imgUploadInput = document.querySelector('.img-upload__input');
 const imgUploadOverlay = document.querySelector('.img-upload__overlay');
 const body = document.querySelector('body');
 const uploadCancel = document.querySelector('#upload-cancel');
+const textHashtags = form.querySelector('.text__hashtags');
 const hashtag = /^#[a-zа-яё0-9]{1,19}$/i;
 
 const pristine = new Pristine(form, {
@@ -15,10 +16,34 @@ const pristine = new Pristine(form, {
   errorTextTag: 'span',
   errorTextClass: 'img-upload__error'
 });
+const checkValidityMessages = (field) => {
+  addEventListener('input', () => {
 
-const validateHashtag = (value) => hashtag.test(value);
+    const fieldValue = field.trim().split(/\s/);
 
-pristine.addValidator(form.querySelector('.text__hashtags'), validateHashtag, 'не корректные символы');
+
+    if (fieldValue.length <= 5) {
+      return true;
+    } {
+      return false;
+    }
+
+  });
+
+};
+const triam = (value) => {
+  // here `this` refers to the respective input element
+  if (value.length <= 5) {
+    return true;
+  } {
+    return false;
+  }
+};
+//const validateHashtag = (value) => checkingValidityMessages.test(value);
+
+//pristine.addValidator(textHashtags, checkValidityMessages(textHashtags), 'не корректные символы');
+
+pristine.addValidator(textHashtags, checkValidityMessages, 'ошибка');
 
 /* form.addEventListener('submit', (evt) => {
   evt.preventDefault();
@@ -30,11 +55,12 @@ pristine.addValidator(form.querySelector('.text__hashtags'), validateHashtag, '�
     console.log('Форма невалидна');
   }
 }); */
-
+//модалка
 const openUserModal = () => {
   imgUploadOverlay.classList.remove('hidden');
   body.classList.add('modal-open');
   document.addEventListener('keydown', onDocumentKeydown);
+  //checkValidityMessages(textHashtags);
 };
 
 imgUploadInput.addEventListener('change', (evt) => {
