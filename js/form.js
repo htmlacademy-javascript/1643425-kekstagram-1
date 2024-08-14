@@ -1,66 +1,40 @@
 import { isEscapeKey } from './util.js';
 const form = document.querySelector('.img-upload__form');
 const imgUploadInput = document.querySelector('.img-upload__input');
-//const imgUploadPreview = document.querySelector('.img-upload__preview img');
 const imgUploadOverlay = document.querySelector('.img-upload__overlay');
 const body = document.querySelector('body');
 const uploadCancel = document.querySelector('#upload-cancel');
 const textHashtags = form.querySelector('.text__hashtags');
-const hashtag = /^#[a-zа-яё0-9]{1,19}$/i;
+const textDescription = form.querySelector('.text__description');
+
+const HASHTAG = /^#[a-zа-яё0-9]{1,19}$/i;
 
 const pristine = new Pristine(form, {
   classTo: 'img-upload__field-wrapper',
   errorClass: 'img-upload__field-wrapper--invalid',
   successClass: 'img-upload__field-wrapper--valid',
   errorTextParent: 'img-upload__field-wrapper',
-  errorTextTag: 'span',
+  errorTextTag: 'p',
   errorTextClass: 'img-upload__error'
 });
+
 const checkValidityMessages = (field) => {
-  addEventListener('input', () => {
 
-    const fieldValue = field.trim().split(/\s/);
-
-
-    if (fieldValue.length <= 5) {
-      return true;
-    } {
-      return false;
-    }
-
-  });
-
-};
-const triam = (value) => {
-  // here `this` refers to the respective input element
-  if (value.length <= 5) {
+  const fieldValue = field.trim().split(/\s/);
+  if ((fieldValue.length <= 5 && fieldValue.every((element) => element.match(HASHTAG)) &&
+    !fieldValue.some((item, i, arr) => arr.indexOf(item, i + 1) >= i + 1))) {
     return true;
   } {
     return false;
   }
 };
-//const validateHashtag = (value) => checkingValidityMessages.test(value);
 
-//pristine.addValidator(textHashtags, checkValidityMessages(textHashtags), 'не корректные символы');
+pristine.addValidator(textHashtags, checkValidityMessages, 'Хештег начинается со знака #, разделяются пробелами, не повторяются, максимальное количество хештегов - 5');
 
-pristine.addValidator(textHashtags, checkValidityMessages, 'ошибка');
-
-/* form.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-
-  const isValid = pristine.validate();
-  if (isValid) {
-    console.log('Можно отправлять');
-  } else {
-    console.log('Форма невалидна');
-  }
-}); */
-//модалка
 const openUserModal = () => {
   imgUploadOverlay.classList.remove('hidden');
   body.classList.add('modal-open');
   document.addEventListener('keydown', onDocumentKeydown);
-  //checkValidityMessages(textHashtags);
 };
 
 imgUploadInput.addEventListener('change', (evt) => {
@@ -74,7 +48,7 @@ const onDocumentKeydown = (evt) => {
     closeUserModal();
   }
 };
-//закрытие модалки
+
 const closeUserModal = () => {
   imgUploadOverlay.classList.add('hidden');
   body.classList.remove('modal-open');
@@ -84,4 +58,15 @@ const closeUserModal = () => {
 
 uploadCancel.addEventListener('click', () => {
   closeUserModal();
+});
+
+textHashtags.addEventListener('keydown', (event) => {
+  if (isEscapeKey(event)) {
+    event.stopPropagation();
+  }
+});
+textDescription.addEventListener('keydown', (event) => {
+  if (isEscapeKey(event)) {
+    event.stopPropagation();
+  }
 });
