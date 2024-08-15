@@ -1,12 +1,14 @@
 import { isEscapeKey } from './util.js';
+
 const form = document.querySelector('.img-upload__form');
 const imgUploadInput = document.querySelector('.img-upload__input');
 const imgUploadOverlay = document.querySelector('.img-upload__overlay');
 const body = document.querySelector('body');
 const uploadCancel = document.querySelector('#upload-cancel');
 const textHashtags = form.querySelector('.text__hashtags');
-const textDescription = form.querySelector('.text__description');
+//const textDescription = form.querySelector('.text__description');
 
+const QUANTITY_HASHTAG = 5;
 const HASHTAG = /^#[a-zа-яё0-9]{1,19}$/i;
 
 const pristine = new Pristine(form, {
@@ -20,34 +22,23 @@ const pristine = new Pristine(form, {
 
 const checkValidityMessages = (field) => {
 
-  const fieldValue = field.trim().split(/\s/);
-  if ((fieldValue.length <= 5 && fieldValue.every((element) => element.match(HASHTAG)) &&
-    !fieldValue.some((item, i, arr) => arr.indexOf(item, i + 1) >= i + 1))) {
-    return true;
-  } {
+  const hashtags = field.trim().split(/\s/);
+  if (hashtags.length > QUANTITY_HASHTAG) {
     return false;
   }
-};
-
-pristine.addValidator(textHashtags, checkValidityMessages, 'Хештег начинается со знака #, разделяются пробелами, не повторяются, максимальное количество хештегов - 5');
-
-const openUserModal = () => {
-  imgUploadOverlay.classList.remove('hidden');
-  body.classList.add('modal-open');
-  document.addEventListener('keydown', onDocumentKeydown);
-};
-
-imgUploadInput.addEventListener('change', (evt) => {
-  evt.preventDefault();
-  openUserModal();
-});
-
-const onDocumentKeydown = (evt) => {
-  if (isEscapeKey(evt)) {
-    evt.preventDefault();
-    closeUserModal();
+  if (hashtags.some((element) => !element.test(HASHTAG))) {
+    return false;
   }
+  /*  const set = new Set();
+ 
+   for (const elem of hashtags) {
+     if (!set.has(elem)) {
+       return false;
+     } */
+  return true;
+}
 };
+
 
 const closeUserModal = () => {
   imgUploadOverlay.classList.add('hidden');
@@ -56,17 +47,37 @@ const closeUserModal = () => {
   imgUploadInput.value = '';
 };
 
-uploadCancel.addEventListener('click', () => {
-  closeUserModal();
-});
+const openUserModal = () => {
+  imgUploadOverlay.classList.remove('hidden');
+  body.classList.add('modal-open');
+  document.addEventListener('keydown', onDocumentKeydown);
 
-textHashtags.addEventListener('keydown', (event) => {
-  if (isEscapeKey(event)) {
-    event.stopPropagation();
+};
+
+function onDocumentKeydown(evt) {
+  if (isEscapeKey(evt)) {
+    evt.preventDefault();
+    closeUserModal();
   }
-});
-textDescription.addEventListener('keydown', (event) => {
-  if (isEscapeKey(event)) {
-    event.stopPropagation();
-  }
-});
+}
+
+if (textHashtags === document.activeElement) {
+  isEscapeKey();
+}
+
+const unitPictureForm = () => {
+  pristine.addValidator(textHashtags,
+    checkValidityMessages,
+    'Хештег начинается со знака #, разделяются пробелами, не повторяются, максимальное количество хештегов - 5'
+  );
+
+  uploadCancel.addEventListener('click', () => {
+    closeUserModal();
+  });
+
+  imgUploadInput.addEventListener('change', (evt) => {
+    evt.preventDefault();
+    openUserModal();
+  });
+};
+export { unitPictureForm };
