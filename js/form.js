@@ -6,7 +6,7 @@ const imgUploadOverlay = document.querySelector('.img-upload__overlay');
 const body = document.querySelector('body');
 const uploadCancel = document.querySelector('#upload-cancel');
 const textHashtags = form.querySelector('.text__hashtags');
-//const textDescription = form.querySelector('.text__description');
+const textDescription = form.querySelector('.text__description');
 
 const QUANTITY_HASHTAG = 5;
 const HASHTAG = /^#[a-zа-яё0-9]{1,19}$/i;
@@ -26,19 +26,15 @@ const checkValidityMessages = (field) => {
   if (hashtags.length > QUANTITY_HASHTAG) {
     return false;
   }
-  if (hashtags.some((element) => !element.test(HASHTAG))) {
+  if (hashtags.some((element) => !element.match(HASHTAG))) {
     return false;
   }
-  /*  const set = new Set();
- 
-   for (const elem of hashtags) {
-     if (!set.has(elem)) {
-       return false;
-     } */
-  return true;
-}
-};
+  if (hashtags.length > [...new Set(hashtags)].length) {
+    return false;
+  }
 
+  return true;
+};
 
 const closeUserModal = () => {
   imgUploadOverlay.classList.add('hidden');
@@ -61,9 +57,19 @@ function onDocumentKeydown(evt) {
   }
 }
 
-if (textHashtags === document.activeElement) {
-  isEscapeKey();
-}
+const cancelingHandlerFocus = (evt) => {
+  if (isEscapeKey(evt)) {
+    evt.stopPropagation();
+  }
+};
+
+textHashtags.addEventListener('keydown', (evt) => {
+  cancelingHandlerFocus(evt);
+});
+
+textDescription.addEventListener('keydown', (evt) => {
+  cancelingHandlerFocus(evt);
+});
 
 const unitPictureForm = () => {
   pristine.addValidator(textHashtags,
@@ -80,4 +86,5 @@ const unitPictureForm = () => {
     openUserModal();
   });
 };
+
 export { unitPictureForm };
