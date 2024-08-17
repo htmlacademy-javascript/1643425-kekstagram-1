@@ -31,6 +31,11 @@ const renderBigPhoto = (data) => {
   socialCommentsContainer.innerHTML = ' ';
   renderComments(data.comments);
 };
+const closeUserModal = () => {
+  bigPicture.classList.add('hidden');
+  body.classList.remove('modal-open');
+  document.removeEventListener('keydown', onDocumentKeydown);
+};
 
 const openUserModal = () => {
   bigPicture.classList.remove('hidden');
@@ -46,18 +51,13 @@ const renderBigPicture = (data) => {
 };
 
 //закрытие модалки
-const onDocumentKeydown = (evt) => {
+function onDocumentKeydown(evt) {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
     closeUserModal();
   }
-};
+}
 
-const closeUserModal = () => {
-  bigPicture.classList.add('hidden');
-  body.classList.remove('modal-open');
-  document.removeEventListener('keydown', onDocumentKeydown);
-};
 
 bigPictureCancel.addEventListener('click', () => {
   closeUserModal();
