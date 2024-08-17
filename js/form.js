@@ -51,27 +51,13 @@ const openUserModal = () => {
 };
 
 function onDocumentKeydown(evt) {
-  if (isEscapeKey(evt)) {
+  if (isEscapeKey(evt) && textHashtags !== document.activeElement && textDescription !== document.activeElement) {
     evt.preventDefault();
     closeUserModal();
   }
 }
 
-const cancelingHandlerFocus = (evt) => {
-  if (isEscapeKey(evt)) {
-    evt.stopPropagation();
-  }
-};
-
-textHashtags.addEventListener('keydown', (evt) => {
-  cancelingHandlerFocus(evt);
-});
-
-textDescription.addEventListener('keydown', (evt) => {
-  cancelingHandlerFocus(evt);
-});
-
-const unitPictureForm = () => {
+const initPictureForm = () => {
   pristine.addValidator(textHashtags,
     checkValidityMessages,
     'Хештег начинается со знака #, разделяются пробелами, не повторяются, максимальное количество хештегов - 5'
@@ -87,4 +73,4 @@ const unitPictureForm = () => {
   });
 };
 
-export { unitPictureForm };
+export { initPictureForm };
