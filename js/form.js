@@ -7,10 +7,7 @@ const body = document.querySelector('body');
 const uploadCancel = document.querySelector('#upload-cancel');
 const textHashtags = form.querySelector('.text__hashtags');
 const textDescription = form.querySelector('.text__description');
-const scaleControlSmaller = form.querySelector('.scale__control--smaller');
-const scaleControlBigger = form.querySelector('.scale__control--bigger');
-const scaleControlValue = form.querySelector('.scale__control--value');
-const imgUploadPreview = form.querySelector('.img-upload__preview img');
+
 
 const QUANTITY_HASHTAG = 5;
 const HASHTAG = /^#[a-zа-яё0-9]{1,19}$/i;
@@ -33,40 +30,11 @@ const checkValidityMessages = (field) => {
   if (hashtags.some((element) => !element.match(HASHTAG))) {
     return false;
   }
-  if (hashtags.length > [...new Set(hashtags)].length) {
+  if (hashtags.length > new Set(hashtags).size) {
     return false;
   }
 
   return true;
-};
-
-const changScale = () => {
-  scaleControlValue.value = '100%';
-  let scaleControlValueNumber = Number(scaleControlValue.value.slice(0, -1)) / 100;
-
-  const transformPicture = (ValueNumber) => {
-    imgUploadPreview.style.transform = `scale(${ValueNumber})`;
-  };
-
-  scaleControlSmaller.addEventListener('click', () => {
-
-    if (scaleControlValueNumber > 0.25) {
-
-      scaleControlValueNumber -= 0.25;
-      scaleControlValue.value = `${scaleControlValueNumber * 100}%`;
-      transformPicture(scaleControlValueNumber);
-    }
-  });
-
-  scaleControlBigger.addEventListener('click', () => {
-
-    if (scaleControlValueNumber < 1) {
-
-      scaleControlValueNumber += 0.25;
-      scaleControlValue.value = `${scaleControlValueNumber * 100}%`;
-      transformPicture(scaleControlValueNumber);
-    }
-  });
 };
 
 const closeUserModal = () => {
@@ -80,8 +48,6 @@ const openUserModal = () => {
   imgUploadOverlay.classList.remove('hidden');
   body.classList.add('modal-open');
   document.addEventListener('keydown', onDocumentKeydown);
-  changScale();
-
 };
 
 function onDocumentKeydown(evt) {
