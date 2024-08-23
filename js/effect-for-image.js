@@ -23,7 +23,7 @@ console.log((DATAFORSLIDER)['chrome']['min']);
 const findingKeysObject = (element) => {
   for (let i = 0; i < Object.keys(DATAFORSLIDER).length; i++) {
     if (Object.keys(DATAFORSLIDER)[i] === element.value) {
-      return Object.keys(DATAFORSLIDER)[i], Object.keys(DATAFORSLIDER)[i]['filter'], Object.keys(DATAFORSLIDER)[i]['min'], Object.keys(DATAFORSLIDER)[i]['max'], Object.keys(DATAFORSLIDER)[i]['step'];
+      return Object.keys(DATAFORSLIDER)[i], Object.keys(DATAFORSLIDER)[i]['filter'], Object.keys(DATAFORSLIDER)[i]['min'], Object.keys(DATAFORSLIDER)[i]['max'], Object.keys(DATAFORSLIDER)[i]['step'];//;
     }
   }
 };
