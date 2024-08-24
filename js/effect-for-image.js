@@ -4,60 +4,97 @@ const effectLevelValue = document.querySelector('.effect-level__value');
 const imgUploadEffectLevel = document.querySelector('.img-upload__effect-level');
 const sliderElement = document.querySelector('.effect-level__slider');
 
-
-/* Для эффекта «Хром» — filter: grayscale(0..1) с шагом 0.1;
-Для эффекта «Сепия» — filter: sepia(0..1) с шагом 0.1;
-Для эффекта «Марвин» — filter: invert(0..100 %) с шагом 1 %;
-Для эффекта «Фобос» — filter: blur(0..3px) с шагом 0.1px;
-Для эффекта «Зной» — filter: brightness(1..3) с шагом 0.1;
-Для эффекта «Оригинал» CSS - стили filter удаляются. */
-
-const DATAFORSLIDER = {
-  'chrome': { filter: 'grayscale', min: 0, max: 1, step: 0.1 },
-  'sepia': { filter: 'sepia', min: 0, max: 1, step: 0.1 },
-  'marvin': { filter: 'invert', min: 0, max: `${100}%`, step: `${1}%` },
-  'phobos': { filter: 'blur', min: 0, max: `${3}px`, step: `${0.1}px` },
-  'heat': { filter: 'brightness', min: 1, max: 3, step: 0.1 },
-};
-console.log((DATAFORSLIDER)['chrome']['min']);
-const findingKeysObject = (element) => {
-  for (let i = 0; i < Object.keys(DATAFORSLIDER).length; i++) {
-    if (Object.keys(DATAFORSLIDER)[i] === element.value) {
-      return Object.keys(DATAFORSLIDER)[i], Object.keys(DATAFORSLIDER)[i]['filter'], Object.keys(DATAFORSLIDER)[i]['min'], Object.keys(DATAFORSLIDER)[i]['max'], Object.keys(DATAFORSLIDER)[i]['step'];//;
-    }
+const DATA_FOR_SLIDER = {
+  'chrome': {
+    filter: 'grayscale',
+    minRange: 0,
+    maxRange: 1,
+    stepRange: 0.1,
+    startRange: 1
+  },
+  'sepia': {
+    filter: 'sepia',
+    minRange: 0,
+    maxRange: 1,
+    stepRange: 0.1,
+    startRange: 1
+  },
+  'marvin': {
+    filter: 'invert',
+    minRange: 0,
+    maxRange: 100,
+    stepRange: 1,
+    startRange: 100
+  },
+  'phobos': {
+    filter: 'blur',
+    minRange: 0,
+    maxRange: 3,
+    stepRange: 0.1,
+    startRange: 3
+  },
+  'heat': {
+    filter: 'brightness',
+    minRange: 1,
+    maxRange: 3,
+    stepRange: 0.1,
+    startRange: 3
   }
+};
+
+const resetEffect = () => {
+  imgUploadPreview.style.removeProperty('filter');
+  imgUploadEffectLevel.classList.add('hidden');
 };
 
 const createEffect = (shade, value) => {
   imgUploadPreview.style.filter = `${shade}(${value})`;
 };
-const createDepthEffect = (shade, minRange, maxRange, stepRange) => {
-  debugger;
+
+const createDepthEffect = (filter, minRange, maxRange, stepRange, startRange) => {
+
+  if (document.querySelector('.noUi-base')) {
+    sliderElement.noUiSlider.destroy();
+  }
+
   noUiSlider.create(sliderElement, {
     range: {
       min: minRange,
       max: maxRange,
     },
-    start: 1,
+    start: startRange,
     step: stepRange
   });
 
   sliderElement.noUiSlider.on('update', () => {
     effectLevelValue.value = sliderElement.noUiSlider.get();
-    createEffect(shade, effectLevelValue.value);
+    createEffect(filter, effectLevelValue.value);
   });
 };
 
-const addingEffectClass = () => {
+const initEffect = () => {
   for (const element of effectsRadio) {
-    element.addEventListener('click', () => {
+
+    element.addEventListener('change', () => {
       imgUploadPreview.removeAttribute('class');
       imgUploadPreview.classList.add(`effects__preview--${element.value}`);
-      console.log(findingKeysObject(element));
-      createDepthEffect(findingKeysObject(element));
+      createDepthEffect(DATA_FOR_SLIDER[element.value].filter,
+        DATA_FOR_SLIDER[element.value].minRange,
+        DATA_FOR_SLIDER[element.value].maxRange,
+        DATA_FOR_SLIDER[element.value].stepRange,
+        DATA_FOR_SLIDER[element.value].startRange);
+
+      // вот эту часть не знаю как реализовать element.value === 'none' не срабатывает)
+
+      /* if (element.value === 'none') {
+          imgUploadEffectLevel.classList.add('hidden');
+          imgUploadPreview.style.removeProperty('filter');
+        } */
+
     });
   }
-};
-addingEffectClass();
 
+};
+
+export { initEffect };
 

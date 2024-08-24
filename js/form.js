@@ -50,6 +50,7 @@ const openUserModal = () => {
   imgUploadOverlay.classList.remove('hidden');
   body.classList.add('modal-open');
   document.addEventListener('keydown', onDocumentKeydown);
+
 };
 
 function onDocumentKeydown(evt) {
