@@ -5,96 +5,120 @@ const imgUploadEffectLevel = document.querySelector('.img-upload__effect-level')
 const sliderElement = document.querySelector('.effect-level__slider');
 
 const DATA_FOR_SLIDER = {
+  'none': {
+    filter: 'none',
+    range: {
+      min: 0,
+      max: 100
+    },
+    step: 1,
+    start: 100,
+    unit: ''
+  },
   'chrome': {
     filter: 'grayscale',
-    minRange: 0,
-    maxRange: 1,
-    stepRange: 0.1,
-    startRange: 1
+    range: {
+      min: 0,
+      max: 1
+    },
+    step: 0.1,
+    start: 1,
+    unit: ''
   },
   'sepia': {
     filter: 'sepia',
-    minRange: 0,
-    maxRange: 1,
-    stepRange: 0.1,
-    startRange: 1
+    range: {
+      min: 0,
+      max: 1
+    },
+    step: 0.1,
+    start: 1,
+    unit: ''
+
   },
   'marvin': {
     filter: 'invert',
-    minRange: 0,
-    maxRange: 100,
-    stepRange: 1,
-    startRange: 100
+    range: {
+      min: 0,
+      max: 100
+    },
+    step: 1,
+    start: 100,
+    unit: '%'
   },
   'phobos': {
     filter: 'blur',
-    minRange: 0,
-    maxRange: 3,
-    stepRange: 0.1,
-    startRange: 3
+    range: {
+      min: 0,
+      max: 3
+    },
+    step: 0.1,
+    start: 3,
+    unit: 'px'
   },
   'heat': {
     filter: 'brightness',
-    minRange: 1,
-    maxRange: 3,
-    stepRange: 0.1,
-    startRange: 3
+    range: {
+      min: 1,
+      max: 3
+    },
+    step: 0.1,
+    start: 3,
+    unit: ''
   }
 };
+
+const DEFAULT_EFFECTS = DATA_FOR_SLIDER['none'];
 
 const resetEffect = () => {
   imgUploadPreview.style.removeProperty('filter');
   imgUploadEffectLevel.classList.add('hidden');
 };
 
-const createEffect = (shade, value) => {
-  imgUploadPreview.style.filter = `${shade}(${value})`;
-};
-
-const createDepthEffect = (filter, minRange, maxRange, stepRange, startRange) => {
-
-  if (document.querySelector('.noUi-base')) {
-    sliderElement.noUiSlider.destroy();
-  }
+const initSlider = () => {
 
   noUiSlider.create(sliderElement, {
     range: {
-      min: minRange,
-      max: maxRange,
+      min: 0,
+      max: 1,
     },
-    start: startRange,
-    step: stepRange
+    step: 0.1,
+    start: 1
+
   });
+};
+
+const createEffect = (shade, value, unit) => {
+  const filter = unit ? `${shade}(${value}${unit})` : `${shade}(${value})`;
+  imgUploadPreview.style.filter = filter;
+};
+
+const onEffectChange = (evt) => {
+  const currentEffect = evt.target.value;
+  imgUploadPreview.className = `effects__preview--${currentEffect}`;
+
+
+  if (currentEffect === 'none') {
+    resetEffect();
+    return;
+  }
+
+  const sliderOptions = DATA_FOR_SLIDER[currentEffect];
+  //console.log(sliderOptions);
+
+  sliderElement.updateOptions(sliderOptions);
 
   sliderElement.noUiSlider.on('update', () => {
     effectLevelValue.value = sliderElement.noUiSlider.get();
-    createEffect(filter, effectLevelValue.value);
+    createEffect(sliderOptions.filter, effectLevelValue.value, sliderOptions.unit);
   });
 };
 
 const initEffect = () => {
-  for (const element of effectsRadio) {
-
-    element.addEventListener('change', () => {
-      imgUploadPreview.removeAttribute('class');
-      imgUploadPreview.classList.add(`effects__preview--${element.value}`);
-      createDepthEffect(DATA_FOR_SLIDER[element.value].filter,
-        DATA_FOR_SLIDER[element.value].minRange,
-        DATA_FOR_SLIDER[element.value].maxRange,
-        DATA_FOR_SLIDER[element.value].stepRange,
-        DATA_FOR_SLIDER[element.value].startRange);
-
-      // вот эту часть не знаю как реализовать element.value === 'none' не срабатывает)
-
-      /* if (element.value === 'none') {
-          imgUploadEffectLevel.classList.add('hidden');
-          imgUploadPreview.style.removeProperty('filter');
-        } */
-
-    });
-  }
-
+  initSlider(DEFAULT_EFFECTS);
+  effectsRadio.forEach((element) => element.addEventListener('change', onEffectChange));
 };
+
 
 export { initEffect };
 
