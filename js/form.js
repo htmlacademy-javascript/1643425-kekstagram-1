@@ -1,4 +1,5 @@
 import { isEscapeKey } from './util.js';
+import { resetScale } from './scale.js';
 
 const form = document.querySelector('.img-upload__form');
 const imgUploadInput = document.querySelector('.img-upload__input');
@@ -7,6 +8,7 @@ const body = document.querySelector('body');
 const uploadCancel = document.querySelector('#upload-cancel');
 const textHashtags = form.querySelector('.text__hashtags');
 const textDescription = form.querySelector('.text__description');
+
 
 const QUANTITY_HASHTAG = 5;
 const HASHTAG = /^#[a-zа-яё0-9]{1,19}$/i;
@@ -29,7 +31,7 @@ const checkValidityMessages = (field) => {
   if (hashtags.some((element) => !element.match(HASHTAG))) {
     return false;
   }
-  if (hashtags.length > [...new Set(hashtags)].length) {
+  if (hashtags.length > new Set(hashtags).size) {
     return false;
   }
 
@@ -44,6 +46,7 @@ const closeUserModal = () => {
 };
 
 const openUserModal = () => {
+  resetScale();
   imgUploadOverlay.classList.remove('hidden');
   body.classList.add('modal-open');
   document.addEventListener('keydown', onDocumentKeydown);
