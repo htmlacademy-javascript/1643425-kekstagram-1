@@ -75,17 +75,9 @@ const resetEffect = () => {
   imgUploadEffectLevel.classList.add('hidden');
 };
 
-const initSlider = () => {
+const initSlider = (effect = DEFAULT_EFFECTS) => {
 
-  noUiSlider.create(sliderElement, {
-    range: {
-      min: 0,
-      max: 1,
-    },
-    step: 0.1,
-    start: 1
-
-  });
+  noUiSlider.create(sliderElement, effect);
 };
 
 const createEffect = (shade, value, unit) => {
@@ -97,16 +89,15 @@ const onEffectChange = (evt) => {
   const currentEffect = evt.target.value;
   imgUploadPreview.className = `effects__preview--${currentEffect}`;
 
-
   if (currentEffect === 'none') {
     resetEffect();
     return;
   }
 
+  imgUploadEffectLevel.classList.remove('hidden');
   const sliderOptions = DATA_FOR_SLIDER[currentEffect];
-  //console.log(sliderOptions);
 
-  sliderElement.updateOptions(sliderOptions);
+  sliderElement.noUiSlider.updateOptions(sliderOptions);
 
   sliderElement.noUiSlider.on('update', () => {
     effectLevelValue.value = sliderElement.noUiSlider.get();
@@ -115,10 +106,10 @@ const onEffectChange = (evt) => {
 };
 
 const initEffect = () => {
-  initSlider(DEFAULT_EFFECTS);
+  resetEffect();
+  initSlider();
   effectsRadio.forEach((element) => element.addEventListener('change', onEffectChange));
 };
-
 
 export { initEffect };
 
