@@ -1,6 +1,6 @@
-import { getRandomInteger, createIdGenerator, getRandomArrayElement, createRandomIdFromRangeGenerator } from './util.js';
+//import { getRandomInteger, createIdGenerator, getRandomArrayElement, createRandomIdFromRangeGenerator } from './util.js';
 
-const ID_PHOTO_COUNT = 25;
+/* const ID_PHOTO_COUNT = 25;
 const PICTURE_COUNT = 25;
 const AVATAR_COUNT = 6;
 const LIKES_MIN_COUNT = 15;
@@ -45,8 +45,9 @@ const getPictures = (index) => ({
   description: getRandomArrayElement(DESCRIPTIONS),
   likes: getRandomInteger(LIKES_MIN_COUNT, LIKES_MAX_COUNT),
   comments: Array.from({ length: getRandomInteger(1, 5) }, createComment)
-});
-
+}); */
+/*
 const createDuplicatesPictures = () => Array.from({ length: PICTURE_COUNT }, (_, index) => getPictures(index + 1));
 
 export { createDuplicatesPictures };
+ */

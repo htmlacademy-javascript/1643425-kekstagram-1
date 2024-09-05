@@ -13,6 +13,7 @@ const transformPicture = (scaleControlValueNumber) => {
 
 const resetScale = () => {
   transformPicture(DEFAULT_SCALE);
+  scaleControlValue.value = 100;
 };
 
 const changScale = (scaleControlValueNumber) => {

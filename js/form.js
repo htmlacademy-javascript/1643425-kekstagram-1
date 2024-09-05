@@ -1,5 +1,7 @@
-import { isEscapeKey } from './util.js';
+import { showAlert, isEscapeKey } from './util.js';
 import { resetScale } from './scale.js';
+import { sendData } from './api.js';
+import { resetEffect } from './effects.js';
 
 const form = document.querySelector('.img-upload__form');
 const imgUploadInput = document.querySelector('.img-upload__input');
@@ -12,6 +14,12 @@ const textDescription = form.querySelector('.text__description');
 
 const QUANTITY_HASHTAG = 5;
 const HASHTAG = /^#[a-zа-яё0-9]{1,19}$/i;
+
+const resetInput = () => {
+  textHashtags.value = '';
+  textDescription.value = '';
+  imgUploadInput.value = '';
+};
 
 const pristine = new Pristine(form, {
   classTo: 'img-upload__field-wrapper',
@@ -42,11 +50,12 @@ const closeUserModal = () => {
   imgUploadOverlay.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
-  imgUploadInput.value = '';
+  resetScale();
+  resetInput();
 };
 
 const openUserModal = () => {
-  resetScale();
+  resetEffect();
   imgUploadOverlay.classList.remove('hidden');
   body.classList.add('modal-open');
   document.addEventListener('keydown', onDocumentKeydown);
@@ -76,4 +85,19 @@ const initPictureForm = () => {
   });
 };
 
-export { initPictureForm };
+const setUserFormSubmit = (onSuccess) => {
+  form.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    const isValid = pristine.validate();
+    if (isValid) {
+      sendData(new FormData(evt.target))
+        .then(onSuccess)
+        .catch((err) => {
+          showAlert(err.message);
+        });
+    }
+  });
+};
+
+export { initPictureForm, setUserFormSubmit, closeUserModal };

@@ -72,7 +72,10 @@ const DEFAULT_EFFECTS = DATA_FOR_SLIDER['none'];
 
 const resetEffect = () => {
   imgUploadPreview.style.removeProperty('filter');
+  imgUploadPreview.className = 'none';
   imgUploadEffectLevel.classList.add('hidden');
+
+
 };
 
 const initSlider = (effect = DEFAULT_EFFECTS) => {
@@ -106,10 +109,9 @@ const onEffectChange = (evt) => {
 };
 
 const initEffect = () => {
-  resetEffect();
   initSlider();
   effectsRadio.forEach((element) => element.addEventListener('change', onEffectChange));
 };
 
-export { initEffect };
+export { initEffect, resetEffect };
 
