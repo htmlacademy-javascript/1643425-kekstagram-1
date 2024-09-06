@@ -74,12 +74,9 @@ const resetEffect = () => {
   imgUploadPreview.style.removeProperty('filter');
   imgUploadPreview.className = 'none';
   imgUploadEffectLevel.classList.add('hidden');
-
-
 };
 
 const initSlider = (effect = DEFAULT_EFFECTS) => {
-
   noUiSlider.create(sliderElement, effect);
 };
 
