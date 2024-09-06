@@ -1,5 +1,9 @@
 
-import { showAlert } from './util.js';
+import { isEscapeKey } from './util.js';
+
+const bodyContainer = document.querySelector('body');
+const success = document.querySelector('#success').content.querySelector('.success');
+
 
 const BASE_URL = 'https://28.javascript.htmlacademy.pro/kekstagram';
 const Route = {
@@ -13,14 +17,38 @@ const Method = {
 const ErrorText = {
   GET_DATA: 'Не удалось загрузить данные. Попробуйте обновить страницу',
   SEND_DATA: 'Не удалось отправить форму. Попробуйте ещё раз',
-  SUCCESFULLY_MESSAGE: 'Данные успешно отправлены'
+};
+
+const closeUserModal = () => {
+  bodyContainer.removeChild(document.querySelector('.success'));
+  document.removeEventListener('keydown', onDocumentKeydown);
+};
+
+function onDocumentKeydown(evt) {
+  if (isEscapeKey(evt)) {
+    evt.preventDefault();
+    closeUserModal();
+  }
+}
+
+const showMessageWhenUploadingImages = () => {
+  const createMessageFragment = document.createDocumentFragment();
+
+  const successElement = success.cloneNode(true);
+  createMessageFragment.append(successElement);
+  bodyContainer.append(createMessageFragment);
+  document.addEventListener('keydown', onDocumentKeydown);
+  document.querySelector('.success__button').addEventListener('click', () => {
+
+    closeUserModal();
+  });
 };
 
 const load = (route, errorText, method = Method.GET, body = null) =>
   fetch(`${BASE_URL}${route}`, { method, body })
     .then((response) => {
       if (method === Method.POST && response.ok) {
-        showAlert(ErrorText.SUCCESFULLY_MESSAGE, 'green');
+        showMessageWhenUploadingImages();
       }
       if (!response.ok) {
         throw new Error();
@@ -34,5 +62,6 @@ const load = (route, errorText, method = Method.GET, body = null) =>
 const getData = () => load(Route.GET_DATA, ErrorText.GET_DATA);
 
 const sendData = (body) => load(Route.SEND_DATA, ErrorText.SEND_DATA, Method.POST, body,);
+
 
 export { getData, sendData };

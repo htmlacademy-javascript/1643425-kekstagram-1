@@ -9,7 +9,6 @@ const socialCommentsContainer = document.querySelector('.social__comments');
 
 const renderComments = (comments) => {
   const createCommentFragment = document.createDocumentFragment();
-
   comments.forEach(({ avatar, name, message }) => {
 
     const commentElements = socialComment.cloneNode(true);
