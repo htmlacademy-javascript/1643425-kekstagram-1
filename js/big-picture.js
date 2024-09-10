@@ -1,4 +1,5 @@
 import { isEscapeKey } from './util.js';
+
 const bigPicture = document.querySelector('.big-picture');
 const bigPictureCancel = document.querySelector('.big-picture__cancel');
 const body = document.querySelector('body');
@@ -9,7 +10,6 @@ const socialCommentsContainer = document.querySelector('.social__comments');
 
 const renderComments = (comments) => {
   const createCommentFragment = document.createDocumentFragment();
-
   comments.forEach(({ avatar, name, message }) => {
 
     const commentElements = socialComment.cloneNode(true);
@@ -31,6 +31,7 @@ const renderBigPhoto = (data) => {
   socialCommentsContainer.innerHTML = ' ';
   renderComments(data.comments);
 };
+
 const closeUserModal = () => {
   bigPicture.classList.add('hidden');
   body.classList.remove('modal-open');
@@ -50,7 +51,6 @@ const renderBigPicture = (data) => {
   renderBigPhoto(data);
 };
 
-//закрытие модалки
 function onDocumentKeydown(evt) {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
@@ -58,10 +58,10 @@ function onDocumentKeydown(evt) {
   }
 }
 
-
 bigPictureCancel.addEventListener('click', () => {
   closeUserModal();
 });
+
 export { renderBigPicture };
 
 

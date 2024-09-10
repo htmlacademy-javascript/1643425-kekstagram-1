@@ -3,9 +3,9 @@ const scaleControlSmaller = form.querySelector('.scale__control--smaller');
 const scaleControlBigger = form.querySelector('.scale__control--bigger');
 const scaleControlValue = form.querySelector('.scale__control--value');
 const imgUploadPreview = form.querySelector('.img-upload__preview img');
+
 const SCALE_STEP = 0.25;
 const DEFAULT_SCALE = 1;
-
 
 const transformPicture = (scaleControlValueNumber) => {
   imgUploadPreview.style.transform = `scale(${scaleControlValueNumber})`;
@@ -13,6 +13,7 @@ const transformPicture = (scaleControlValueNumber) => {
 
 const resetScale = () => {
   transformPicture(DEFAULT_SCALE);
+  scaleControlValue.value = 100;
 };
 
 const changScale = (scaleControlValueNumber) => {
@@ -26,7 +27,6 @@ const onButtonSmallerClick = () => {
 
   if (scaleControlValueNumber > SCALE_STEP) {
     scaleControlValueNumber -= SCALE_STEP;
-
     changScale(scaleControlValueNumber);
   }
 };
@@ -36,17 +36,14 @@ const onButtonBiggerClick = () => {
 
   if (scaleControlValueNumber < 1) {
     scaleControlValueNumber += SCALE_STEP;
-
     changScale(scaleControlValueNumber);
   }
 };
 
 
 const initScale = () => {
-
   scaleControlSmaller.addEventListener('click', onButtonSmallerClick);
   scaleControlBigger.addEventListener('click', onButtonBiggerClick);
 };
-
 
 export { initScale, resetScale };

@@ -1,5 +1,8 @@
 import { isEscapeKey } from './util.js';
 import { resetScale } from './scale.js';
+import { sendData } from './api.js';
+import { resetEffect } from './effects.js';
+import { showSuccesModal, showErrorModal } from './modals.js';
 
 const form = document.querySelector('.img-upload__form');
 const imgUploadInput = document.querySelector('.img-upload__input');
@@ -11,7 +14,7 @@ const textDescription = form.querySelector('.text__description');
 
 
 const QUANTITY_HASHTAG = 5;
-const HASHTAG = /^#[a-zа-яё0-9]{1,19}$/i;
+const HASHTAG_REGEX = /^#[a-zа-яё0-9]{1,19}$/i;
 
 const pristine = new Pristine(form, {
   classTo: 'img-upload__field-wrapper',
@@ -23,15 +26,16 @@ const pristine = new Pristine(form, {
 });
 
 const checkValidityMessages = (field) => {
-
-  const hashtags = field.trim().split(/\s/);
+  const hashtags = field.trim().split(/\s/).filter((item) => item !== ' ');
   if (hashtags.length > QUANTITY_HASHTAG) {
     return false;
   }
-  if (hashtags.some((element) => !element.match(HASHTAG))) {
+
+  if (hashtags.length > new Set(hashtags).size) {
     return false;
   }
-  if (hashtags.length > new Set(hashtags).size) {
+
+  if (hashtags.some((element) => element !== '' && !HASHTAG_REGEX.test(element))) {
     return false;
   }
 
@@ -42,11 +46,12 @@ const closeUserModal = () => {
   imgUploadOverlay.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
-  imgUploadInput.value = '';
+  resetScale();
+  form.reset();
 };
 
 const openUserModal = () => {
-  resetScale();
+  resetEffect();
   imgUploadOverlay.classList.remove('hidden');
   body.classList.add('modal-open');
   document.addEventListener('keydown', onDocumentKeydown);
@@ -59,6 +64,23 @@ function onDocumentKeydown(evt) {
     closeUserModal();
   }
 }
+
+const onFormSubmit = (evt) => {
+  evt.preventDefault();
+
+  const isValid = pristine.validate();
+  if (isValid) {
+    sendData(new FormData(evt.target))
+      .then(() => {
+        closeUserModal();
+        showSuccesModal();
+      })
+      .catch(() => {
+        showErrorModal();
+      });
+  }
+
+};
 
 const initPictureForm = () => {
   pristine.addValidator(textHashtags,
@@ -75,5 +97,7 @@ const initPictureForm = () => {
     openUserModal();
   });
 };
+
+form.addEventListener('submit', onFormSubmit);
 
 export { initPictureForm };
