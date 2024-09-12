@@ -1,5 +1,6 @@
 const ALERT_SHOW_TIME = 5000;
 
+
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
 const showAlert = (message, color = 'red') => {
@@ -22,8 +23,26 @@ const showAlert = (message, color = 'red') => {
     alertContainer.remove();
   }, ALERT_SHOW_TIME);
 };
+const a = [1, 2, 3, 4, 5, 5, 5, 4, 37, 7];
+
+const getRandomInteger = (array, countPhoto) => {
+  const temporary = [];
+
+  for (let i = 0; i < array.length; i++) {
+    const randomNumber = Math.floor(Math.random() * array.length);
+
+    if (!temporary.some((element) => element === randomNumber)) {
+      temporary.push(randomNumber);
+    }
+
+  }
+  return temporary.slice(0, countPhoto);
+};
+
+console.log(getRandomInteger(a, 3));
 
 export {
   isEscapeKey,
-  showAlert
+  showAlert,
+  getRandomInteger
 };

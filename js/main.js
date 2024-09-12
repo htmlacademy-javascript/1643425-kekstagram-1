@@ -4,6 +4,8 @@ import { initScale } from './scale.js';
 import { initEffect } from './effects.js';
 import { getData } from './api.js';
 import { showAlert } from './util.js';
+import { showFilters } from './filters.js';
+import { getRandomInteger } from './util.js';
 
 initPictureForm();
 initScale();
@@ -12,8 +14,11 @@ initEffect();
 getData()
   .then((data) => {
     renderGallery(data);
+    showFilters();
   })
   .catch((err) => {
     showAlert(err.message);
   }
   );
+
+
