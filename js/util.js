@@ -1,6 +1,5 @@
 const ALERT_SHOW_TIME = 5000;
 
-
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
 const showAlert = (message, color = 'red') => {
@@ -38,9 +37,28 @@ const getRandomNumbers = (array, countPhoto = 10) => {
   return temporary;
 };
 
+const selectsPhoto = (arrayA, arrayB) => {
+  const sharedArray = [];
+
+  for (let i = 0; i < arrayA.length; i++) {
+    sharedArray.push(arrayB[arrayA[i]]);
+  }
+
+  return sharedArray;
+};
+
+const debounce = (callback, timeoutDelay = 500) => {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
 
 export {
   isEscapeKey,
   showAlert,
-  getRandomNumbers
+  getRandomNumbers,
+  selectsPhoto,
+  debounce
 };

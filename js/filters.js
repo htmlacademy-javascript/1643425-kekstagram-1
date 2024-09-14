@@ -1,4 +1,4 @@
-import { getRandomNumbers } from './util.js';
+import { getRandomNumbers, selectsPhoto } from './util.js';
 import { renderGallery } from './photo-creation.js';
 
 const COUNT_PHOTO = 10;
@@ -6,65 +6,57 @@ const COUNT_PHOTO = 10;
 const imgFilter = document.querySelector('.img-filters');
 const imgFiltersButton = document.querySelectorAll('.img-filters__button');
 
-
 const showFilters = () => {
   imgFilter.classList.remove('img-filters--inactive');
 };
 
-const selectsPhoto = (arrayA, arrayB) => {
-  const sharedArray = [];
-
-  for (let i = 0; i < arrayA.length; i++) {
-    sharedArray.push(arrayB[arrayA[i]]);
-  }
-
-  return sharedArray;
+const changClass = (evt) => {
+  document.querySelector('.img-filters__button--active').classList.remove('img-filters__button--active');
+  document.querySelector(`#${evt}`).classList.add('img-filters__button--active');
 };
 
-/* const showSelectedPhotos = (evt, data) => {
-  if (evt.target.id === filterDefault) {
-    console.log('выбран дефолт');
-    renderGallery(data);
-  }
-  if (evt.target.id === filterRandom) {
-    console.log('выбран рандом');
-    renderGallery(selectsPhoto(getRandomNumbers(data, COUNT_PHOTO), data));
-  }
- */
-//selectsPhoto(getRandomNumbers(data, COUNT_PHOTO), data);
-//};
+const sortingComments = (photoA, photoB) => photoB.comments.length - photoA.comments.length;
 
 const onFilterButtonClick = (evt, data) => {
+
   if (evt.target.id === 'filter-default') {
-    console.log('выбран дефолт');
+    document.querySelectorAll('.picture').forEach((element) => {
+      element.remove();
+    });
+
+    changClass(evt.target.id);
     renderGallery(data);
   }
+
   if (evt.target.id === 'filter-random') {
-    console.log('выбран рандом');
+    changClass(evt.target.id);
+    document.querySelectorAll('.picture').forEach((element) => {
+      element.remove();
+    });
+
     renderGallery(selectsPhoto(getRandomNumbers(data, COUNT_PHOTO), data));
   }
+
   if (evt.target.id === 'filter-discussed') {
-    console.log('dsfsfdf');
+    document.querySelectorAll('.picture').forEach((element) => {
+      element.remove();
+    });
+
+    changClass(evt.target.id);
+    renderGallery(data.slice().sort(sortingComments));
   }
+
 };
-
-//const onFilterButtonClick = (evt) => console.log(evt.target.id)
-
 
 const showSelectedFilter = (data) => {
   for (const element of imgFiltersButton) {
     element.addEventListener('click', (evt) => onFilterButtonClick(evt, data));
   }
 };
-//showSelectedFilter();
-//imgFiltersButton.addEventListener('click', (evt) => evt, console.log('sdfds'));
-
 
 const setupFilter = (data) => {
-  //renderGallery(data);
   showFilters();
   showSelectedFilter(data);
 };
-
 
 export { showFilters, setupFilter };
