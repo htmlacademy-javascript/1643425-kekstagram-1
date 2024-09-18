@@ -24,27 +24,12 @@ const showAlert = (message, color = 'red') => {
 };
 
 const getRandomNumbers = (array, countPhoto = 10) => {
-  const temporary = [];
 
-  for (let i = 0; temporary.length < countPhoto; i++) {
-    const randomNumber = Math.floor(Math.random() * array.length);
-
-    if (!temporary.some((element) => element === randomNumber)) {
-      temporary.push(randomNumber);
-    }
-
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
   }
-  return temporary;
-};
-
-const selectsPhoto = (arrayA, arrayB) => {
-  const sharedArray = [];
-
-  for (let i = 0; i < arrayA.length; i++) {
-    sharedArray.push(arrayB[arrayA[i]]);
-  }
-
-  return sharedArray;
+  return array.slice(0, countPhoto);
 };
 
 const debounce = (callback, timeoutDelay = 500) => {
@@ -59,6 +44,5 @@ export {
   isEscapeKey,
   showAlert,
   getRandomNumbers,
-  selectsPhoto,
   debounce
 };

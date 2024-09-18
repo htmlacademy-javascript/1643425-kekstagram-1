@@ -3,7 +3,7 @@ import { renderGallery } from './photo-creation.js';
 import { initScale } from './scale.js';
 import { initEffect } from './effects.js';
 import { getData } from './api.js';
-import { showAlert, debounce } from './util.js';
+import { showAlert } from './util.js';
 import { setupFilter } from './filters.js';
 
 initPictureForm();
@@ -13,7 +13,7 @@ initEffect();
 getData()
   .then((data) => {
     renderGallery(data);
-    debounce(setupFilter(data));
+    setupFilter(data);
   })
   .catch((err) => {
     showAlert(err.message);
