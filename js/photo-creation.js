@@ -35,4 +35,4 @@ const renderGallery = (pictures) => {
   container.addEventListener('click', (evt) => onPictureClick(evt, pictures));
 };
 
-export { renderGallery };
+export { renderGallery, renderPictures };

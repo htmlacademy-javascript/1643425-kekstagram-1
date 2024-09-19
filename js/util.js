@@ -23,7 +23,26 @@ const showAlert = (message, color = 'red') => {
   }, ALERT_SHOW_TIME);
 };
 
+const getRandomNumbers = (array, countPhoto = 10) => {
+
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array.slice(0, countPhoto);
+};
+
+const debounce = (callback, timeoutDelay = 500) => {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+
 export {
   isEscapeKey,
-  showAlert
+  showAlert,
+  getRandomNumbers,
+  debounce
 };
