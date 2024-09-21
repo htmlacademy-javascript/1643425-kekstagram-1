@@ -32,8 +32,7 @@ const onShowMoreButtonClick = () => {
   socialCommentsContainer.innerHTML = '';
   shownComments += 5;
   renderComments(allComments.slice(0, shownComments));
-  //socialCommentCount.textContent = `${ allComments.slice(0, shownComments).length } из ${ allComments.length } комментариев`;
-  console.log(allComments.length);
+  //document.querySelector('.social__comment-count').innerHTML = `${allComments.slice(0, shownComments).length} из ${allComments.length} комментариев`;
 
   if (allComments.slice(0, shownComments).length >= allComments.length) {
     commentsLoader.classList.add('hidden');
@@ -47,9 +46,7 @@ const renderBigPhoto = (data) => {
   document.querySelector('.social__caption').textContent = data.description;
   socialCommentsContainer.innerHTML = '';
   renderComments(data.comments.slice(0, COMMENT_LIMIT));
-  socialCommentCount.innerHtml = '10';
-  //socialCommentCount.innerHtml = `${shownComments} из < span > ${data.comments.length}</span > `;
-  //socialCommentCount.textContent = `${ shownComments } из ${ data.comments.length } комментариев`;
+
   allComments = data.comments;
 
   if (data.comments.length <= 5) {
