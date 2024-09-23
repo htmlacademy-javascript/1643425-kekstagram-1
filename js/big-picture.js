@@ -4,7 +4,6 @@ const bigPicture = document.querySelector('.big-picture');
 const bigPictureCancel = document.querySelector('.big-picture__cancel');
 const body = document.querySelector('body');
 const commentsLoader = document.querySelector('.comments-loader');
-const socialCommentCount = document.querySelector('.social__comment-count');
 const socialComment = document.querySelector('.social__comment');
 const socialCommentsContainer = document.querySelector('.social__comments');
 
