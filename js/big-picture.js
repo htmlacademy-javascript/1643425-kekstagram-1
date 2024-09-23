@@ -32,7 +32,7 @@ const onShowMoreButtonClick = () => {
   socialCommentsContainer.innerHTML = '';
   shownComments += 5;
   renderComments(allComments.slice(0, shownComments));
-  //document.querySelector('.social__comment-count').innerHTML = `${allComments.slice(0, shownComments).length} из ${allComments.length} комментариев`;
+  document.querySelector('.social__comment-count').innerHTML = `${allComments.slice(0, shownComments).length} из <span class="comments-count">${allComments.length}</span> комментариев`;
 
   if (allComments.slice(0, shownComments).length >= allComments.length) {
     commentsLoader.classList.add('hidden');
@@ -48,6 +48,7 @@ const renderBigPhoto = (data) => {
   renderComments(data.comments.slice(0, COMMENT_LIMIT));
 
   allComments = data.comments;
+  document.querySelector('.social__comment-count').innerHTML = `${allComments.slice(0, shownComments).length} из <span class="comments-count">${allComments.length}</span> комментариев`;
 
   if (data.comments.length <= 5) {
     commentsLoader.classList.add('hidden');
@@ -55,7 +56,6 @@ const renderBigPhoto = (data) => {
     commentsLoader.classList.remove('hidden');
     commentsLoader.addEventListener('click', onShowMoreButtonClick);
   }
-
 };
 
 const closeUserModal = () => {
