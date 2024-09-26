@@ -12,7 +12,6 @@ const socialCommentCount = document.querySelector('.social__comment-count');
 let allComments = [];
 let shownComments = COMMENT_LIMIT;
 
-
 const renderComments = (comments) => {
   const createCommentFragment = document.createDocumentFragment();
 
@@ -30,14 +29,13 @@ const renderComments = (comments) => {
 };
 
 const setPhotoDescription = (shown, all) => {
-  socialCommentCount.innerHTML = `${shown} из <span class="comments-count">${all}</span> комментариев`;
+  socialCommentCount.innerHTML = `${Math.min(shown, all)} из <span class="comments-count">${all}</span> комментариев`;
 };
 
 const onShowMoreButtonClick = () => {
   renderComments(allComments.slice(shownComments, shownComments + COMMENT_LIMIT));
   shownComments += 5;
 
-  //socialCommentCount.innerHTML = `${allComments.slice(0, shownComments).length} из <span class="comments-count">${allComments.length}</span> комментариев`;
   setPhotoDescription(shownComments, allComments.length);
 
   if (shownComments >= allComments.length) {
