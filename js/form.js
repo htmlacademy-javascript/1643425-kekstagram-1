@@ -55,11 +55,16 @@ const openUserModal = () => {
   imgUploadOverlay.classList.remove('hidden');
   body.classList.add('modal-open');
   document.addEventListener('keydown', onDocumentKeydown);
+  document.querySelector('.img-upload__submit').disabled = false;
 
 };
 
+const blockingSendButton = () => {
+  document.querySelector('.img-upload__submit').disabled = true;
+};
+
 function onDocumentKeydown(evt) {
-  if (isEscapeKey(evt) && textHashtags !== document.activeElement && textDescription !== document.activeElement) {
+  if (isEscapeKey(evt) && textHashtags !== document.activeElement && textDescription !== document.activeElement && !document.body.querySelector('.haserror')) {
     evt.preventDefault();
     closeUserModal();
   }
@@ -72,6 +77,7 @@ const onFormSubmit = (evt) => {
   if (isValid) {
     sendData(new FormData(evt.target))
       .then(() => {
+        blockingSendButton();
         closeUserModal();
         showSuccesModal();
       })

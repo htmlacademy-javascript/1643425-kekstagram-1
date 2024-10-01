@@ -5,10 +5,12 @@ import { initEffect } from './effects.js';
 import { getData } from './api.js';
 import { showAlert } from './util.js';
 import { setupFilter } from './filters.js';
+import { addPhoto } from './add-photo.js';
 
 initPictureForm();
 initScale();
 initEffect();
+addPhoto();
 
 getData()
   .then((data) => {
